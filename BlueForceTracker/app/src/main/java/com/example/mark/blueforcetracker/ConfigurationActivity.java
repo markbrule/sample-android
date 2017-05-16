@@ -1,5 +1,6 @@
 package com.example.mark.blueforcetracker;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -8,6 +9,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.content.Context;
 
 public class ConfigurationActivity extends AppCompatActivity {
 
@@ -52,6 +54,9 @@ public class ConfigurationActivity extends AppCompatActivity {
 
     public void restartService(View view) {
         // handle restarting the service with new parameters
-
+        Context context = BFTApplication.getAppContext();
+        SharedPreferences pref = context.getSharedPreferences(BFTApplication.prefName, MODE_PRIVATE);
+        SharedPreferences.Editor editor = pref.edit();
+        editor.putString("BFTA.server", )
     }
 }

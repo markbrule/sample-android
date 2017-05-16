@@ -25,5 +25,6 @@
             android:enabled="true"
             android:exported="false"></service>
     </application>
-
+    <application android:name="com.xyz.MyApplication">
+    </application>
 </manifest>
