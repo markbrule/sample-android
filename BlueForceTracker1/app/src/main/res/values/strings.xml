@@ -1,3 +1,5 @@
 <resources>
-    <string name="app_name">BlueForceTracker1</string>
+    <string name="app_name">"Blue Force Tracker "</string>
+    <string name="server_name">Server Name</string>
+    <string name="refresh_service">Restart</string>
 </resources>
