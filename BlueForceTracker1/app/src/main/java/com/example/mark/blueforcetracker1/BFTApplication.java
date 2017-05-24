@@ -11,6 +11,8 @@ public class BFTApplication extends Application {
     private static Context context;
     public static final String prefName = "BFTPreferences";
     public static final String serverKey = "BFTA.server";
+    public static final String portNumber = "BTFA.port";
+    public static final String queueName = "BTFA.queue";
 
     @Override
     public void onCreate() {

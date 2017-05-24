@@ -17,17 +17,25 @@ public class ConfigActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_config);
         Context context = BFTApplication.getAppContext();
-        EditText serverText = (EditText) findViewById(R.id.editText);
+        EditText eText = (EditText) findViewById(R.id.editText);
         SharedPreferences pref = context.getSharedPreferences(BFTApplication.prefName, MODE_PRIVATE);
-        serverText.setText(pref.getString(BFTApplication.serverKey, ""), TextView.BufferType.NORMAL);
+        eText.setText(pref.getString(BFTApplication.serverKey, ""), TextView.BufferType.NORMAL);
+        eText = (EditText) findViewById(R.id.portText);
+        eText.setText(pref.getString(BFTApplication.portNumber, "1883"), TextView.BufferType.NORMAL);
+        eText = (EditText) findViewById(R.id.queueText);
+        eText.setText(pref.getString(BFTApplication.queueName, "sdw"), TextView.BufferType.NORMAL);
     }
 
     public void handleRestart(View view) {
         Context context = BFTApplication.getAppContext();
         SharedPreferences pref = context.getSharedPreferences(BFTApplication.prefName, MODE_PRIVATE);
         EditText serverText = (EditText) findViewById(R.id.editText);
+        EditText portText = (EditText) findViewById(R.id.portText);
+        EditText queueText = (EditText) findViewById(R.id.queueText);
         SharedPreferences.Editor editor = pref.edit();
         editor.putString(BFTApplication.serverKey, serverText.getText().toString());
+        editor.putString(BFTApplication.portNumber, portText.getText().toString());
+        editor.putString(BFTApplication.queueName, serverText.getText().toString());
         editor.commit();
         Intent intent = new Intent(this, MqttPublishService.class);
         intent.setAction(MqttPublishService.ACTION_RESTART);

@@ -2,4 +2,6 @@
     <string name="app_name">"Blue Force Tracker "</string>
     <string name="server_name">Server Name</string>
     <string name="refresh_service">Restart</string>
+    <string name="port_number">Port</string>
+    <string name="queue_name">Queue Name</string>
 </resources>
