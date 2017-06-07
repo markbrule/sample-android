@@ -4,8 +4,9 @@ import android.app.IntentService;
 import android.content.Intent;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.widget.EditText;
-import android.widget.Toast;
+
+import java.util.concurrent.ScheduledThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 /**
  * An {@link IntentService} subclass for handling asynchronous task requests in
@@ -15,11 +16,16 @@ import android.widget.Toast;
  * helper methods.
  */
 public class MqttPublishService extends IntentService {
+
     // IntentService can perform, e.g. ACTION_FETCH_NEW_ITEMS
     public static final String ACTION_RESTART = "com.example.mark.blueforcetracker1.action.RESTART";
+    private static final Integer threadPool = 2;
+    private static ScheduledThreadPoolExecutor sched = null;
+    private static boolean isRunning = false;
 
     public MqttPublishService() {
         super("MqttPublishService");
+        sched = new ScheduledThreadPoolExecutor(threadPool);
     }
 
     /**
@@ -37,15 +43,9 @@ public class MqttPublishService extends IntentService {
 
     @Override
     protected void onHandleIntent(Intent intent) {
-        if (intent != null) {
-            Context context = BFTApplication.getAppContext();
-            SharedPreferences pref = context.getSharedPreferences(BFTApplication.prefName, MODE_PRIVATE);
-            String server = "From MqttPublishService: " + pref.getString(BFTApplication.serverKey, "");
-
-            final String action = intent.getAction();
-            if (ACTION_RESTART.equals(action)) {
-                handleActionRestart(server);
-            }
+        final String action = intent.getAction();
+        if (ACTION_RESTART.equals(action)) {
+            handleActionRestart(/* "tcp://" + server + ":" + port, topic */);
         }
     }
 
@@ -53,8 +53,18 @@ public class MqttPublishService extends IntentService {
      * Handle action Foo in the provided background thread with the provided
      * parameters.
      */
-    private void handleActionRestart(String server) {
-        // TODO: restart the scheduler
+    private void handleActionRestart(/* String server, String topic */) {
+        Context context = BFTApplication.getAppContext();
+        SharedPreferences pref = context.getSharedPreferences(BFTApplication.prefName, android.content.Context.MODE_PRIVATE);
+        Integer refresh = Integer.parseInt(pref.getString(BFTApplication.refreshFreq, "60"));
+        PublishLocation r = new PublishLocation(this);
+        // TODO: schedule the Runnable
+        if (isRunning) {
+            sched.shutdown();
+            sched = new ScheduledThreadPoolExecutor(threadPool);
+        }
+        sched.scheduleAtFixedRate(r, refresh, refresh, TimeUnit.SECONDS);
+        isRunning = true;
     }
 
 }

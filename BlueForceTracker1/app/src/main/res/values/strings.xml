@@ -3,5 +3,7 @@
     <string name="server_name">Server Name</string>
     <string name="refresh_service">Restart</string>
     <string name="port_number">Port</string>
-    <string name="queue_name">Queue Name</string>
+    <string name="sensor_path">Sensor Path</string>
+    <string name="refresh_freq">Refresh Rate (s)</string>
+    <string name="stop_service">Stop</string>
 </resources>

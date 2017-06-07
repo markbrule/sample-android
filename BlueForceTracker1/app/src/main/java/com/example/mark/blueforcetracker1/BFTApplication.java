@@ -13,6 +13,8 @@ public class BFTApplication extends Application {
     public static final String serverKey = "BFTA.server";
     public static final String portNumber = "BTFA.port";
     public static final String queueName = "BTFA.queue";
+    public static final String refreshFreq = "BFTA.refresh";
+    public static final String sensorPath = "BFTA.sensor";
 
     @Override
     public void onCreate() {
