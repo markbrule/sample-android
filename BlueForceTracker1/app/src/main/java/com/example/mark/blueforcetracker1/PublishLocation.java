@@ -134,8 +134,11 @@ public class PublishLocation implements Runnable, GoogleApiClient.ConnectionCall
         mGoogleApiClient.connect();
     }
 
-    public void stopPublishing() {
-        if (publisher != null)          // no need to stop if the publisher isn't made yet
-            publisher.publishStatus("NOT_RUNNING", "");
+    public void publishStatus(String status, String descr) {
+        if (publisher != null)
+            connectToQueue();
+
+        if (publisher != null)
+            publisher.publishStatus(status, descr);
     }
 }

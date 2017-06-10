@@ -80,6 +80,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="16dp"
         android:layout_marginTop="16dp"
+        android:onClick="handleStop"
         android:text="@string/stop_service"
         app:layout_constraintLeft_toRightOf="@+id/button2"
         app:layout_constraintTop_toBottomOf="@+id/sensorPathText" />

@@ -51,6 +51,9 @@ public class ConfigActivity extends AppCompatActivity {
         Intent intent = new Intent(this, PublishDataTimer.class);
         PendingIntent pi = PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
         alarm.cancel(pi);
+        PublishLocation pub = new PublishLocation(context);
+        pub.publishStatus("RUNNING", "");
+        pub.run();
         statusText.setText("Publishing is OFF");
         alarm.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), refresh*1000, pi);
         statusText.setText("Publishing is ON");
@@ -64,7 +67,7 @@ public class ConfigActivity extends AppCompatActivity {
         TextView statusText = (TextView) findViewById(R.id.statusTextView);
         alarm.cancel(pi);
         PublishLocation pub = new PublishLocation(context);
-        pub.stopPublishing();
+        pub.publishStatus("NOT_RUNNING", "");
         statusText.setText("Publishing is OFF");
     }
 }
