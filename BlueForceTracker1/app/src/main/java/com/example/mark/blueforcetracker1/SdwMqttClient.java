@@ -36,10 +36,10 @@ public class SdwMqttClient {
             MemoryPersistence mem = new MemoryPersistence();
             // TODO: set LWT
             publisher = new MqttClient("tcp://" + addr + ":" + port, clientId, mem);
-            // TODO: is it okay to leave the session connected?
             // TODO: what are the proper connection options?
-            // TODO: when should we disconnect?
             options = new MqttConnectOptions();
+            String lwt = createStatusPayload("ERROR", "", true);
+            options.setWill(topic, lwt.getBytes(), 2, true);
             options.setCleanSession(true);
             //publisher.connect(options);
         } catch (MqttException me) {
@@ -63,7 +63,7 @@ public class SdwMqttClient {
     }
 
     public void publishStatus(String status, String description) {
-        publish("status", createStatusPayload(status, description));
+        publish("status", createStatusPayload(status, description, false));
     }
 
     public void publishValues(List<Map<String,Object>> values) {
@@ -82,10 +82,11 @@ public class SdwMqttClient {
 
     // status must be one of : RUNNING, NOT_RUNNING, ERROR
     // description is optional
-    public String createStatusPayload(String status, String description) {
+    // lwt = if true, then don't include the date/time in the payload
+    public String createStatusPayload(String status, String description, boolean lwt) {
         Map<String,Object> params = new HashMap<String,Object>();
         params.put("status", status);
-        params.put("datetime", getDateTime());
+        if (! lwt) params.put("datetime", getDateTime());
         if (! description.isEmpty()) params.put("description", description);
         params.put("commandId", getCommandId());
         return createJsonPayload(params);
