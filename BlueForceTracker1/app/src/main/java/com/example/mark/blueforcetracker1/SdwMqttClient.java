@@ -8,10 +8,10 @@ import org.eclipse.paho.client.mqttv3.persist.MemoryPersistence;
 import org.joda.time.Instant;
 import org.joda.time.format.DateTimeFormatter;
 import org.joda.time.format.ISODateTimeFormat;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 import java.util.UUID;
 
 
@@ -66,30 +66,36 @@ public class SdwMqttClient {
         publish("status", createStatusPayload(status, description, false));
     }
 
-    public void publishValues(List<Map<String,Object>> values) {
-        String vstr = "[";
-        for (Map<String,Object> v : values) {
-            vstr += (vstr.equals("[") ? "" : ", ") + createJsonPayload(v);
+    public void publishValues(JSONArray values) {
+        try {
+            JSONObject a = new JSONObject()
+                    .put("entity", topic)
+                    .put("datetime", getDateTime())
+                    .put("values", values)
+                    .put("commandId", getCommandId());
+            publish("value", a.toString());
+        } catch (JSONException e) {
+            System.out.println("Error caugh in publishValues(JSON): " + e.getMessage());
+            e.printStackTrace();
+            // TODO: how do we manage errors?
         }
-        vstr += "]";
-        Map<String,Object> params = new HashMap<String,Object>();
-        params.put("entity", topic);
-        params.put("datetime", getDateTime());
-        params.put("values", vstr);
-        params.put("commandId", getCommandId());
-        publish("value", createJsonPayload(params));
     }
 
     // status must be one of : RUNNING, NOT_RUNNING, ERROR
     // description is optional
     // lwt = if true, then don't include the date/time in the payload
     public String createStatusPayload(String status, String description, boolean lwt) {
-        Map<String,Object> params = new HashMap<String,Object>();
-        params.put("status", status);
-        if (! lwt) params.put("datetime", getDateTime());
-        if (! description.isEmpty()) params.put("description", description);
-        params.put("commandId", getCommandId());
-        return createJsonPayload(params);
+        try {
+            JSONObject payload = new JSONObject()
+                    .put("status", status)
+                    .put("commandId", getCommandId());
+            if (!lwt) payload.put("datetime", getDateTime());
+            if (!description.isEmpty()) payload.put("description", description);
+            return (payload.toString());
+        } catch (JSONException e) {
+            // TODO: handle error on status payload
+            return "";
+        }
     }
 
     // get current DateTime in RFC3339 format
@@ -101,26 +107,5 @@ public class SdwMqttClient {
     // create a string usable as a commandId
     protected String getCommandId() {
         return UUID.randomUUID().toString();
-    }
-
-    // convert a map of strings (key => value) as a JSON object
-    protected String createJsonPayload(Map<String,Object> params) {
-        String payload = "{";
-        for (Map.Entry<String,Object> entry : params.entrySet()) {
-            String e;
-            if (entry.getValue() == null) {
-                e = String.format("\"%s\": {}", entry.getKey());
-            } else if (entry.getValue() instanceof Double) {
-                e = String.format("\"%s\": %f", entry.getKey(), entry.getValue());
-            } else if (entry.getKey().equals("values")) {
-                // TODO: values is an array, so it shouldn't be quoted.
-                //       need to do this right
-                e = String.format("\"%s\": %s", entry.getKey(), entry.getValue());
-            } else {
-                e = String.format("\"%s\": \"%s\"", entry.getKey(), entry.getValue());
-            }
-            payload += (payload.equals("{") ? "" : ", ") + e;
-        }
-        return payload + "}";
     }
 }

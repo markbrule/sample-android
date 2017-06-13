@@ -11,10 +11,8 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationServices;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 
 /**
@@ -62,23 +60,23 @@ public class PublishLocation implements Runnable, GoogleApiClient.ConnectionCall
                         mLocConnected = false;
                     }
                 }
-                List<Map<String,Object>> args = new ArrayList<Map<String,Object>>(2);
-                Map<String,Object> latMap = new HashMap<String,Object>();
-                latMap.put("field", "LATITUDE");
-                latMap.put("amount", lat);
-                latMap.put("attributes", null);
-                Map<String,Object> longMap = new HashMap<String,Object>();
-                longMap.put("field", "LONGITUDE");
-                longMap.put("amount", lng);
-                longMap.put("attributes", null);
-                Map<String,Object> accMap = new HashMap<String,Object>();
-                accMap.put("field", "accuracy");
-                accMap.put("amount", acc);
-                accMap.put("attributes", null);
-                args.add(latMap);
-                args.add(longMap);
-                args.add(accMap);
-                publisher.publishValues(args);
+                JSONObject latitude = new JSONObject()
+                        .put("field", "LATITUDE")
+                        .put("amount", lat)
+                        .put("attributes", new JSONObject());
+                JSONObject longitude = new JSONObject()
+                        .put("field", "LONGITUDE")
+                        .put("amount", lng)
+                        .put("attributes", new JSONObject());
+                JSONObject accuracy = new JSONObject()
+                        .put("field", "accuracy")
+                        .put("amount", acc)
+                        .put("attributes", new JSONObject());
+                JSONArray jargs = new JSONArray()
+                        .put(latitude)
+                        .put(longitude)
+                        .put(accuracy);
+                publisher.publishValues(jargs);
             } catch (Exception e) {
                 // TODO: handle the exception
                 System.out.println("Error publishing the location: " + e.getMessage());

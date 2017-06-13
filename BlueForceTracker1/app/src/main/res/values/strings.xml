@@ -6,4 +6,5 @@
     <string name="sensor_path">Sensor Path</string>
     <string name="refresh_freq">Refresh Rate (s)</string>
     <string name="stop_service">Stop</string>
+    <string name="title_activity_main">MainActivity</string>
 </resources>
