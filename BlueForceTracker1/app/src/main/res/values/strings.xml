@@ -7,4 +7,8 @@
     <string name="refresh_freq">Refresh Rate (s)</string>
     <string name="stop_service">Stop</string>
     <string name="title_activity_main">MainActivity</string>
+    <string name="configure_button">Configure</string>
+    <string name="off_radio">Off</string>
+    <string name="regular_radio">On</string>
+    <string name="fast_radio">Fast</string>
 </resources>
