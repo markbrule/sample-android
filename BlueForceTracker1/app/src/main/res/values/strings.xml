@@ -11,4 +11,6 @@
     <string name="off_radio">Off</string>
     <string name="regular_radio">On</string>
     <string name="fast_radio">Fast</string>
+    <string name="map_button">Map</string>
+    <string name="title_activity_maps">Map</string>
 </resources>

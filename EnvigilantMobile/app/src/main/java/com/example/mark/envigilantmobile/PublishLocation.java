@@ -1,4 +1,4 @@
-package com.example.mark.blueforcetracker1;
+package com.example.mark.envigilantmobile;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -16,7 +16,7 @@ import org.json.JSONObject;
 
 
 /**
- * Created by mark on 5/30/17.
+ * Created by mark on 6/18/17.
  */
 
 public class PublishLocation implements Runnable, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
@@ -29,11 +29,10 @@ public class PublishLocation implements Runnable, GoogleApiClient.ConnectionCall
     private static String sensor;
     private Context context;
 
-    PublishLocation(Context ctxt) {
-        context = ctxt;
+    PublishLocation(Context context) {
+        this.context = context;
     }
 
-    // Runnable interface
     @Override
     public void run() {
         try {
@@ -87,6 +86,7 @@ public class PublishLocation implements Runnable, GoogleApiClient.ConnectionCall
                 e.printStackTrace();
             }
         }
+
     }
 
     // GoogleApiClient interfaces
@@ -109,12 +109,12 @@ public class PublishLocation implements Runnable, GoogleApiClient.ConnectionCall
 
     private void connectToQueue() {
         try {
-            Context context = BFTApplication.getAppContext();
-            SharedPreferences pref = context.getSharedPreferences(BFTApplication.prefName, android.content.Context.MODE_PRIVATE);
-            server = pref.getString(BFTApplication.serverKey, "");
-            port = pref.getString(BFTApplication.portNumber, "1883");
-            topic = pref.getString(BFTApplication.queueName, "");
-            sensor = pref.getString(BFTApplication.sensorPath, "");
+            Context context = EnvigilantMobileApplication.getAppContext();
+            SharedPreferences pref = context.getSharedPreferences(EnvigilantMobileApplication.prefName, android.content.Context.MODE_PRIVATE);
+            server = pref.getString(EnvigilantMobileApplication.serverKey, "");
+            port = pref.getString(EnvigilantMobileApplication.portNumber, "1883");
+            topic = pref.getString(EnvigilantMobileApplication.queueName, "");
+            sensor = pref.getString(EnvigilantMobileApplication.sensorPath, "");
 
             // TODO: Added here to replace paho client
             publisher = new SdwMqttClient(server, port, sensor);
@@ -148,4 +148,5 @@ public class PublishLocation implements Runnable, GoogleApiClient.ConnectionCall
         if (publisher != null)
             publisher.publishStatus(status, descr);
     }
+
 }
