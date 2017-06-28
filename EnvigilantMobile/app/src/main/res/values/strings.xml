@@ -3,4 +3,11 @@
     <string name="action_settings">Settings</string>
     <string name="radio_on">On</string>
     <string name="radio_off">Off</string>
+    <string name="button_configure">Configure</string>
+    <string name="hint_server_address">Server Address</string>
+    <string name="hint_port_number">Port</string>
+    <string name="hint_regular_refresh">Refresh (Reg)</string>
+    <string name="hint_accelerated_refresh">Refesh (Accel)</string>
+    <string name="hint_sensor_path">Sensor Path</string>
+    <string name="button_restart">Restart</string>
 </resources>

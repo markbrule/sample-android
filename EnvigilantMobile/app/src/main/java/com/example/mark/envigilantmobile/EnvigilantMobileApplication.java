@@ -13,7 +13,8 @@ public class EnvigilantMobileApplication extends Application {
     public static final String serverKey = "EnvigilantMobile.server";
     public static final String portNumber = "EnvigilantMobile.port";
     public static final String queueName = "EnvigilantMobile.queue";
-    public static final String refreshFreq = "EnvigilantMobile.refresh";
+    public static final String regRefreshFreq = "EnvigilantMobile.regRefresh";
+    public static final String accRefreshFreq = "EnvigilantMobile.accRefresh";
     public static final String sensorPath = "EnvigilantMobile.sensor";
 
     @Override

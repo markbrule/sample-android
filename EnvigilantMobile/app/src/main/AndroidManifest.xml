@@ -22,6 +22,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <receiver
+            android:name=".PublishLocationTimer"
+            android:enabled="true"
+            android:exported="true" />
+
+        <activity android:name=".ConfigActivity"></activity>
     </application>
 
 </manifest>
