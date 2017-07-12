@@ -8,25 +8,37 @@
     tools:context="com.example.mark.envigilantmobile.MainActivity"
     tools:showIn="@layout/activity_main">
 
-    <RadioButton
-        android:id="@+id/onRadio"
-        android:layout_width="wrap_content"
+    <RadioGroup xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/radioGroup2"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="@string/radio_on"
-        android:layout_marginLeft="16dp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginTop="16dp" />
-
-    <RadioButton
-        android:id="@+id/offRadio"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="16dp"
         android:layout_marginTop="16dp"
-        android:text="@string/radio_off"
-        app:layout_constraintLeft_toRightOf="@+id/onRadio"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:checkedButton="@+id/offRadio"
+        android:orientation="vertical"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout_editor_absoluteX="16dp">
+
+        <RadioButton
+            android:id="@+id/onRadio"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="16dp"
+            android:duplicateParentState="false"
+            android:text="@string/radio_on"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <RadioButton
+            android:id="@+id/offRadio"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="16dp"
+            android:text="@string/radio_off"
+            app:layout_constraintLeft_toRightOf="@+id/onRadio"
+            app:layout_constraintTop_toTopOf="parent" />
+    </RadioGroup>
 
     <Button
         android:id="@+id/button2"
@@ -37,5 +49,6 @@
         android:onClick="onConfigureButton"
         android:text="@string/button_configure"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/onRadio" />
+        app:layout_constraintTop_toBottomOf="@+id/radioGroup2" />
+
 </android.support.constraint.ConstraintLayout>

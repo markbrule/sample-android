@@ -77,11 +77,20 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
+        android:layout_marginLeft="75dp"
         android:onClick="handleRestart"
         android:text="@string/button_restart"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent" />
+        app:layout_constraintLeft_toLeftOf="parent" />
+
+    <Button
+        android:id="@+id/button4"
+        android:layout_width="88dp"
+        android:layout_height="wrap_content"
+        android:onClick="handleCancel"
+        android:text="@string/button_cancel"
+        app:layout_constraintLeft_toRightOf="@+id/button3"
+        android:layout_marginLeft="19dp"
+        app:layout_constraintBottom_toBottomOf="@+id/button3"
+        android:layout_marginBottom="0dp" />
 </android.support.constraint.ConstraintLayout>

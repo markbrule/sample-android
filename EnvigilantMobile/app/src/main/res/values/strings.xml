@@ -10,4 +10,5 @@
     <string name="hint_accelerated_refresh">Refesh (Accel)</string>
     <string name="hint_sensor_path">Sensor Path</string>
     <string name="button_restart">Restart</string>
+    <string name="button_cancel">Cancel</string>
 </resources>

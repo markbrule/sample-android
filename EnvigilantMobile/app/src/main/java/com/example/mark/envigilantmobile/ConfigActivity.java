@@ -19,7 +19,7 @@ public class ConfigActivity extends AppCompatActivity {
         setContentView(R.layout.activity_config);
         Context context = EnvigilantMobileApplication.getAppContext();
         EditText eText = (EditText) findViewById(R.id.serverAddrText);
-        SharedPreferences pref = context.getSharedPreferences(EnvigilantMobileApplication.prefName, MODE_PRIVATE);
+        SharedPreferences pref = EnvigilantMobileApplication.getPreferences();
         eText.setText(pref.getString(EnvigilantMobileApplication.serverKey, ""), TextView.BufferType.NORMAL);
         eText = (EditText) findViewById(R.id.portText);
         eText.setText(pref.getString(EnvigilantMobileApplication.portNumber, "1883"), TextView.BufferType.NORMAL);
@@ -33,7 +33,7 @@ public class ConfigActivity extends AppCompatActivity {
 
     public void handleRestart(View view) {
         Context context = EnvigilantMobileApplication.getAppContext();
-        SharedPreferences pref = context.getSharedPreferences(EnvigilantMobileApplication.prefName, MODE_PRIVATE);
+        SharedPreferences pref = EnvigilantMobileApplication.getPreferences();
         EditText serverText = (EditText) findViewById(R.id.serverAddrText);
         EditText portText = (EditText) findViewById(R.id.portText);
         EditText regRefreshText = (EditText) findViewById(R.id.regText);
@@ -49,10 +49,28 @@ public class ConfigActivity extends AppCompatActivity {
         int refresh = Integer.parseInt(regRefreshText.getText().toString());
         AlarmManager alarm = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         Intent intent = new Intent(this, PublishLocationTimer.class);
+        PendingIntent cpi = PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT);
         PendingIntent pi = PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-        alarm.cancel(pi);
+        alarm.cancel(cpi);
         PublishLocation pub = new PublishLocation(context);
         pub.run();
+        editor = pref.edit();
+        editor.putBoolean(EnvigilantMobileApplication.currentState, true);
+        editor.commit();
         alarm.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), refresh*1000, pi);
+        System.out.println("Setting alarm for every " + refresh*1000 + " milliseconds");
+    }
+
+    public void handleCancel(View view) {
+        Context context = EnvigilantMobileApplication.getAppContext();
+        AlarmManager alarm = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+        Intent intent = new Intent(this, PublishLocationTimer.class);
+        PendingIntent pi = PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT);
+        alarm.cancel(pi);
+        SharedPreferences pref = EnvigilantMobileApplication.getPreferences();
+        SharedPreferences.Editor editor = pref.edit();
+        editor.putBoolean(EnvigilantMobileApplication.currentState, false);
+        editor.commit();
+        System.out.println("Canceled alarm");
     }
 }
